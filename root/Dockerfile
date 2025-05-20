@@ -43,9 +43,13 @@ RUN apt-get install -y \
     php8.3-exif
 
 
-# Cài đặt nvm & nodejs \
+# Cài đặt nvm & nodejs
 COPY ./node/ /usr/local/node
 RUN  chmod +x /usr/local/node/install.sh && sh /usr/local/node/install.sh
+
+# Cài đặt dotnet sdk 9
+COPY ./dotnet/ /usr/local/dotnet
+RUN  chmod +x /usr/local/dotnet/install-donet.sh && sh /usr/local/dotnet/install-donet.sh
 
 COPY bootstrap.sh /bootstrap.sh
 RUN chmod +x /bootstrap.sh
