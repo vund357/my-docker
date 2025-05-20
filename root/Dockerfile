@@ -5,12 +5,16 @@ RUN apt-get update
 RUN apt-get install software-properties-common ca-certificates lsb-release apt-transport-https -y
 RUN add-apt-repository ppa:ondrej/php --yes
 RUN add-apt-repository ppa:openswoole/ppa --yes
+RUN add-apt-repository ppa:openjdk-r/ppa --yes
 RUN apt-get update
 
 # Cài đặt tools
 RUN apt-get install -yqq curl locate mlocate unzip vim ssh
 
-# Cài đặt nginx, git
+# Cài đặt jdk 21
+RUN apt install openjdk-21-jdk -y
+
+# Cài đặt nginx
 RUN apt-get install -y nginx
 
 # Cài đặt php 8.3
@@ -34,12 +38,19 @@ RUN apt-get install -y \
     php8.3-rdkafka \
     php8.3-mongodb \
     php8.3-swoole \
-    php8.3-zip
+    php8.3-zip \
+    php8.3-imagick \
+    php8.3-exif
+
+
+# Cài đặt nvm & nodejs \
+COPY ./node/ /usr/local/node
+RUN  chmod +x /usr/local/node/install.sh && sh /usr/local/node/install.sh
 
 COPY bootstrap.sh /bootstrap.sh
 RUN chmod +x /bootstrap.sh
 
-WORKDIR /var/www/services
+WORKDIR /var/www/websites
 
 # Cài đặt composer
 COPY ./composer/ /usr/local/composer
